@@ -25,5 +25,11 @@ namespace LibraryNS
        string output = newBook.GetTitle();
        Assert.Equal(output, "The Adventures of Huckleberry Finn");
      }
+
+     [Fact]
+     public void BookTableStartsEmpty()
+     {
+       Assert.Equal(0, Book.GetAll().Count);
+     }
   }
 }
