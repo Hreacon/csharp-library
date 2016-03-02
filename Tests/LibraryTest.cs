@@ -31,5 +31,16 @@ namespace LibraryNS
      {
        Assert.Equal(0, Book.GetAll().Count);
      }
+
+     [Fact]
+     public void SaveBook()
+     {
+       Book newBook = new Book("The Adventures of Huckleberry Finn");
+       newBook.Save();
+
+       List<Book> testList = new List<Book>{newBook};
+
+       Assert.Equal(testList, Book.GetAll());
+     }
   }
 }
