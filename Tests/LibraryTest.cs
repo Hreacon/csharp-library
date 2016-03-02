@@ -17,6 +17,8 @@ namespace LibraryNS
     {
       Book.DeleteAll();
       Person.DeleteAll();
+      Checkout.DeleteAll();
+      Author.DeleteAll();
     }
 
     [Fact]
@@ -196,6 +198,16 @@ namespace LibraryNS
       newPatron.Delete();
 
       Assert.Equal(0, Patron.GetAll().Count);
+    }
+
+    [Fact]
+    public void PatronChecksBookOut()
+    {
+      Patron paul = new Patron("Paul");
+      Book guide = new Book("The Hitchhiker's Guide to the Galaxy");
+      guide.Save();
+      paul.Checkout(guide.GetId());
+      Assert.Equal(1, paul.CountBooksCheckedOut());
     }
   }
 }

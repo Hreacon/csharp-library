@@ -10,8 +10,15 @@ patron crud
 authors crud
 
 classes
-Books - crud, incrimenting and decrimenting copies, r for authors, r for patrons, r for checkouts, search for book by author
-people - crud, r for Books
-patron - crud, r for books, r for checkouts - books currently out and books checked out in the past
-checkout - crud
-authors - crud
+Books - crud, incrimenting and decrimenting copies, r for authors, r for patrons, r for checkouts, search for book by author,title
+people - crud, r for Books, c authors
+patron - crud, r for books, cru for checkouts - books currently out and books checked out in the past,
+
+
+
+
+
+
+
+checkout - d
+authors - d
