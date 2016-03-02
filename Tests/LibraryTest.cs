@@ -15,8 +15,15 @@ namespace LibraryNS
      }
      public void Dispose()
      {
-       Library.DeleteAll();
+      // Library.DeleteAll();
      }
 
+     [Fact]
+     public void BookHoldsTitle()
+     {
+       Book newBook = new Book("The Adventures of Huckleberry Finn");
+       string output = newBook.GetTitle();
+       Assert.Equal(output, "The Adventures of Huckleberry Finn");
+     }
   }
 }
