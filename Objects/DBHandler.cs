@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using LibraryNS;
 
 namespace JensenNS.Objects
 {
@@ -95,7 +96,7 @@ namespace JensenNS.Objects
       SqlDataReader rdr = DBHandler.DatabaseOperation(query, new SqlParameter("@id", id));
       DBHandler.DatabaseCleanup(rdr, _conn);
     }
-    protected static SqlDataReader DatabaseOperation(string query, SqlParameter parameter = null)
+    protected static SqlDataReader DatabaseOperation(string query, SqlParameter parameter)
     {
       return DBHandler.DatabaseOperation(query, new List<SqlParameter> { parameter });
     }
