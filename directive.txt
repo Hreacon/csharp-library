@@ -1,0 +1,14 @@
+Tables:
+books id title copies
+authors id bookid name
+patrons id name
+checkouts id patronid bookid date duedate returned
+
+book crud
+patron crud
+authors crud
+
+classes
+Books - crud, incrimenting and decrimenting copies, r for authors, r for patrons, r for checkouts
+Authors - crud, r for Books
+patrons - crud, r for books, r for checkouts - books currently out and books checked out in the past

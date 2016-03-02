@@ -21,6 +21,10 @@ namespace JensenNS.Objects
       DBHandler.DatabaseCleanup(rdr, _conn);
       return output;
     }
+    protected List<Object> GetList(string table, string query, Func<SqlDataReader, Object> MakeObject, SqlParameter parameter = null)
+    {
+      return GetList(table, query, MakeObject, new List<SqlParameter> { parameter });
+    }
     protected List<Object> GetList(string table, string query, Func<SqlDataReader, Object> MakeObject, List<SqlParameter> parameters = null)
     {
       query = "SELECT * FROM " + table + " " + query;
@@ -32,10 +36,10 @@ namespace JensenNS.Objects
       }
       return output;
     }
-    protected static Object GetObjectFromDB(string table, string query, Func<SqlDataReader, Object> MakeObject, List<SqlParameter> parameters = null)
+    protected static Object GetObjectFromDB(string table, string query, Func<SqlDataReader, Object> MakeObject, SqlParameter parameter = null)
     {
       query = "SELECT * FROM " + table + " " + query;
-      SqlDataReader rdr = DBHandler.DatabaseOperation(query, parameters);
+      SqlDataReader rdr = DBHandler.DatabaseOperation(query, parameter);
       Object output = null;
       while(rdr.Read())
       {
@@ -88,8 +92,12 @@ namespace JensenNS.Objects
     protected static void Delete(string table, int id)
     {
       string query = "DELETE FROM "+table+" WHERE id = @id";
-      SqlDataReader rdr = DBHandler.DatabaseOperation(query, new List<SqlParameter> { new SqlParameter("@id", id)});
+      SqlDataReader rdr = DBHandler.DatabaseOperation(query, new SqlParameter("@id", id));
       DBHandler.DatabaseCleanup(rdr, _conn);
+    }
+    protected static SqlDataReader DatabaseOperation(string query, SqlParameter parameter = null)
+    {
+      return DBHandler.DatabaseOperation(query, new List<SqlParameter> { parameter });
     }
     protected static SqlDataReader DatabaseOperation(string query, List<SqlParameter> parameters = null)
     {
