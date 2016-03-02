@@ -197,7 +197,7 @@ namespace LibraryNS
       Assert.Equal(1, Patron.GetAll().Count);
       newPatron.Delete();
 
-      Assert.Equal(0, Patron.GetAll().Count);
+      Assert.Equal(0, Patron.GetAll().Count); 
     }
 
     [Fact]
