@@ -25,7 +25,7 @@ namespace LibraryNS.Objects
 
     public int GetId()
     {
-    return _id;
+      return _id;
     }
 
     public void SetId(int newId)
@@ -53,6 +53,9 @@ namespace LibraryNS.Objects
       _copies = newCopies;
     }
 
+    public void AddCopy() { _copies++; }
+    public void RemoveCopy() { _copies--; }
+
     public void Save()
     {
       List<string> columns = new List<string>{TitleColumn, CopiesColumn};
@@ -61,6 +64,7 @@ namespace LibraryNS.Objects
         new SqlParameter("@"+TitleColumn, GetTitle())
       };
       _id = base.Save(Table, columns, parameters, GetId());
+      // Console.WriteLine("Book ID: " + _id);
     }
     public void Delete()
     {

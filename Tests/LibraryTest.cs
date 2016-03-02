@@ -222,5 +222,78 @@ namespace LibraryNS
       paul.ReturnBook(guide.GetId());
       Assert.Equal(0, paul.CountBooksCheckedOut());
     }
+    [Fact]
+    public void PatronKnowsWhichBooksItHas()
+    {
+      Patron paul = new Patron("Paul");
+      paul.Save();
+      Book guide = new Book("The Hitchhiker's Guide to the Galaxy");
+      guide.Save();
+      paul.CheckoutBook(guide.GetId());
+
+      Assert.Equal(guide, paul.GetCheckedOutBooks()[0]);
+    }
+    [Fact]
+    public void PatronKnowsWhichBooksCheckedOutInPast()
+    {
+      Patron paul = new Patron("Paul");
+      paul.Save();
+      Book guide = new Book("The Hitchhiker's Guide to the Galaxy");
+      guide.Save();
+      paul.CheckoutBook(guide.GetId());
+      paul.ReturnBook(guide.GetId());
+      Assert.Equal(guide, paul.GetPreviouslyCheckedOutBooks()[0]);
+    }
+    [Fact]
+    public void LibrarianAddsCopiesOfBook()
+    {
+      Book guide = new Book("The Hitchhiker's Guide to the Galaxy");
+      guide.Save();
+
+      guide.SetCopies(5);
+      // save to Database
+      guide.Save();
+
+      Assert.Equal(5, Book.Find(guide.GetId()).GetCopies());
+    }
+    public void LibrarianDeletesCheckout()
+    {
+      Patron paul = new Patron("Paul");
+      paul.Save();
+      Book guide = new Book("The Hitchhiker's Guide to the Galaxy");
+      guide.Save();
+      paul.CheckoutBook(guide.GetId());
+      Assert.Equal(1, paul.CountBooksCheckedOut());
+
+      paul.DeleteCheckout(guide.GetId());
+      Assert.Equal(0, paul.CountBooksCheckedOut());
+    }
+
+    [Fact]
+    public void BookKnowsWhoHasCopies()
+    {
+      Patron paul = new Patron("Paul");
+      paul.Save();
+      Book guide = new Book("The Hitchhiker's Guide to the Galaxy", 2);
+      guide.Save();
+      paul.CheckoutBook(guide.GetId());
+      Assert.Equal(paul, guide.GetPatrons()[0]);
+    }
+    /*
+    [Fact]
+    public void BookKnowsWhoPreviouslyCheckedItOut()
+    {
+
+    }
+    /*
+    book knows how many copies are left
+    book knows how many copies are total
+    when patron checks book out it makes sure there is a copy left
+    authors know what books they've written
+    books know who its authors are
+    people become authors
+    book can search for books by title or author name
+
+    /**/
   }
 }

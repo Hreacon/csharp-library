@@ -41,8 +41,14 @@ namespace LibraryNS.Objects
       };
        List<Object> CheckedOutList = GetList(Checkout.Table, query, Checkout.MakeObject, parameters);
       return CheckedOutList.Count;
-
-
+    }
+    public List<Book> GetCheckedOutBooks() { return GetBooks(0); }
+    public List<Book> GetPreviouslyCheckedOutBooks() { return GetBooks(1); }
+    private List<Book> GetBooks(int returned)
+    {
+      string query = "WHERE " + Checkout.Table + "." + Checkout.BookColumn + " = " + Book.Table + ".id AND "+ Checkout.Table + "." + Checkout.PatronColumn + " = @patronid AND " + Checkout.Table + "." + Checkout.ReturnedColumn + " = " + returned;
+      List<Object> books = base.GetList(Book.Table + ", " + Checkout.Table, query, Book.MakeObject, new SqlParameter("@patronid", GetId()));
+      return books.Cast<Book>().ToList();
     }
     public void CheckoutBook(int bookId)
     {
@@ -58,6 +64,17 @@ namespace LibraryNS.Objects
       };
       base.Save(Checkout.Table, Checkout.Columns, parameters);
     }
+    public void ReturnBook(int bookId)
+    {
+      DateTime today = DateTime.Today;
+      string query = "UPDATE " +Checkout.Table+ " SET " +Checkout.ReturnedColumn+ " = 1  WHERE " +Checkout.ReturnedColumn+ " = 0 AND " +Checkout.PatronColumn+ " = @GetId AND " +Checkout.BookColumn+ " = @bookId";
+
+      List<SqlParameter> parameters = new List<SqlParameter> {
+        new SqlParameter("@GetId", GetId()),
+        new SqlParameter("@bookId", bookId)
+      };
+      DatabaseOperation(query, parameters);
+    }
     public void Save()
     {
       List<string> columns = new List<string>{NameColumn};
@@ -65,6 +82,12 @@ namespace LibraryNS.Objects
         new SqlParameter("@"+NameColumn, GetName())
       };
       _id = base.Save(Table, columns, parameters, GetId());
+    }
+    public void DeleteCheckout(int bookId)
+    {
+      string query = "DELETE * FROM" +Checkout.Table+ " WHERE " +Checkout.BookColumn+ " = @bookId AND " +Checkout.PatronColumn+ " = @GetId";
+
+      // List<
     }
     public void Delete()
     {
