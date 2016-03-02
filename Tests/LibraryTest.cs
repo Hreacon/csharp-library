@@ -40,5 +40,31 @@ namespace LibraryNS
 
        Assert.Equal(newBook.GetTitle(), Book.GetAll()[0].GetTitle());
      }
+     [Fact]
+     public void BookUpdatesDatabase()
+     {
+       Book newBook = new Book("The");
+       newBook.Save();
+       string title = "The Adventures of Huckleberry Finn";
+       newBook.SetTitle(title);
+       newBook.Save();
+       Assert.Equal(title, Book.GetAll()[0].GetTitle());
+     }
+     [Fact]
+     public void BookEqualsBook()
+     {
+       Book book1 = new Book("the");
+       book1.Save();
+       Assert.Equal(book1, Book.GetAll()[0]);
+     }
+
+     [Fact]
+     public void FindBookById()
+     {
+       Book newBook = new Book("The");
+       newBook.Save();
+
+       Assert.Equal(newBook, Book.Find(newBook.GetId()));
+     }
   }
 }

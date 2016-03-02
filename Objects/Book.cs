@@ -71,9 +71,30 @@ namespace LibraryNS.Objects
     {
       DBHandler.DeleteAll(Table);
     }
+    public override bool Equals(Object otherBook)
+    {
+      if (!(otherBook is Book))
+      {
+        return false;
+      }
+      else
+      {
+        Book newBook = (Book) otherBook;
+        bool idEquality = this.GetId() == newBook.GetId();
+        bool titleEquality = this.GetTitle() == newBook.GetTitle();
+        return (idEquality && titleEquality);
+      }
+    }
     public static Object MakeObject(SqlDataReader rdr)
     {
       return new Book(rdr.GetString(1), rdr.GetInt32(2), rdr.GetInt32(0));
+    }
+    public static Book Find(int id)
+    {
+      SqlParameter parameter = new SqlParameter("@id", id );
+      string query = "WHERE id = @id";
+      return (Book) DBHandler.GetObjectFromDB(Table, query, MakeObject, parameter);
+
     }
   } // end class
 } // end namespace
