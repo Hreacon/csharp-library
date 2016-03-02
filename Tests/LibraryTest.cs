@@ -197,17 +197,30 @@ namespace LibraryNS
       Assert.Equal(1, Patron.GetAll().Count);
       newPatron.Delete();
 
-      Assert.Equal(0, Patron.GetAll().Count); 
+      Assert.Equal(0, Patron.GetAll().Count);
     }
 
     [Fact]
     public void PatronChecksBookOut()
     {
       Patron paul = new Patron("Paul");
+      paul.Save();
       Book guide = new Book("The Hitchhiker's Guide to the Galaxy");
       guide.Save();
-      paul.Checkout(guide.GetId());
+      paul.CheckoutBook(guide.GetId());
       Assert.Equal(1, paul.CountBooksCheckedOut());
+    }
+    [Fact]
+    public void PatronChecksBookOutandReturns()
+    {
+      Patron paul = new Patron("Paul");
+      paul.Save();
+      Book guide = new Book("The Hitchhiker's Guide to the Galaxy");
+      guide.Save();
+      paul.CheckoutBook(guide.GetId());
+      Assert.Equal(1, paul.CountBooksCheckedOut());
+      paul.ReturnBook(guide.GetId());
+      Assert.Equal(0, paul.CountBooksCheckedOut());
     }
   }
 }

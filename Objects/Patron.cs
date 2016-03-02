@@ -32,6 +32,32 @@ namespace LibraryNS.Objects
     public string GetName() { return _name; }
     public void SetName(string name) { _name = name; }
 
+    public int CountBooksCheckedOut()
+    {
+      string query = "WHERE patron_id = @id and returned = 0";
+      List<SqlParameter> parameters = new List<SqlParameter> {
+        new SqlParameter("@id", GetId())
+
+      };
+       List<Object> CheckedOutList = GetList(Checkout.Table, query, Checkout.MakeObject, parameters);
+      return CheckedOutList.Count;
+
+
+    }
+    public void CheckoutBook(int bookId)
+    {
+      DateTime today = DateTime.Today;
+      DateTime dueDate = DateTime.Now.AddDays(21);
+      int returned = 0;
+      List<SqlParameter> parameters = new List<SqlParameter> {
+        new SqlParameter("@"+Checkout.DateColumn, today),
+        new SqlParameter("@"+Checkout.DueDateColumn, dueDate),
+        new SqlParameter("@"+Checkout.ReturnedColumn, returned),
+        new SqlParameter("@"+Checkout.PatronColumn, GetId()),
+        new SqlParameter("@"+Checkout.BookColumn, bookId)
+      };
+      base.Save(Checkout.Table, Checkout.Columns, parameters);
+    }
     public void Save()
     {
       List<string> columns = new List<string>{NameColumn};
