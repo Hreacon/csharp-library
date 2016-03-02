@@ -3,6 +3,7 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 using JensenNS.Objects;
+using System.Linq;
 
 namespace LibraryNS.Objects
 {
@@ -52,5 +53,14 @@ namespace LibraryNS.Objects
       _copies = newCopies;
     }
 
+    public static List<Book> GetAll()
+    {
+      List<Object> fromDB = DBHandler.GetAll(Table, MakeObject);
+      return fromDB.Cast<Book>().ToList();
+    }
+    public static Object MakeObject(SqlDataReader rdr)
+    {
+      return new Book(rdr.GetString(1), rdr.GetInt32(2), rdr.GetInt32(0));
+    }
   } // end class
 } // end namespace

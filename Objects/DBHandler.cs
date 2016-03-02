@@ -22,7 +22,7 @@ namespace JensenNS.Objects
       DBHandler.DatabaseCleanup(rdr, _conn);
       return output;
     }
-    protected List<Object> GetList(string table, string query, Func<SqlDataReader, Object> MakeObject, SqlParameter parameter = null)
+    protected List<Object> GetList(string table, string query, Func<SqlDataReader, Object> MakeObject, SqlParameter parameter)
     {
       return GetList(table, query, MakeObject, new List<SqlParameter> { parameter });
     }
