@@ -15,7 +15,7 @@ namespace LibraryNS
      }
      public void Dispose()
      {
-      // Library.DeleteAll();
+      Book.DeleteAll();
      }
 
      [Fact]
@@ -38,9 +38,7 @@ namespace LibraryNS
        Book newBook = new Book("The Adventures of Huckleberry Finn");
        newBook.Save();
 
-       List<Book> testList = new List<Book>{newBook};
-
-       Assert.Equal(testList, Book.GetAll());
+       Assert.Equal(newBook.GetTitle(), Book.GetAll()[0].GetTitle());
      }
   }
 }
