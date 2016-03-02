@@ -53,10 +53,23 @@ namespace LibraryNS.Objects
       _copies = newCopies;
     }
 
+    public void Save()
+    {
+      List<string> columns = new List<string>{TitleColumn, CopiesColumn};
+      List<SqlParameter> parameters = new List<SqlParameter>{
+        new SqlParameter("@"+CopiesColumn, GetCopies()),
+        new SqlParameter("@"+TitleColumn, GetTitle())
+      };
+      _id = base.Save(Table, columns, parameters, GetId());
+    }
     public static List<Book> GetAll()
     {
       List<Object> fromDB = DBHandler.GetAll(Table, MakeObject);
       return fromDB.Cast<Book>().ToList();
+    }
+    public static void DeleteAll()
+    {
+      DBHandler.DeleteAll(Table);
     }
     public static Object MakeObject(SqlDataReader rdr)
     {
