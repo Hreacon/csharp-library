@@ -62,6 +62,10 @@ namespace LibraryNS.Objects
       };
       _id = base.Save(Table, columns, parameters, GetId());
     }
+    public void Delete()
+    {
+      DBHandler.Delete(Table, _id);
+    }
     public static List<Book> GetAll()
     {
       List<Object> fromDB = DBHandler.GetAll(Table, MakeObject);
@@ -94,7 +98,6 @@ namespace LibraryNS.Objects
       SqlParameter parameter = new SqlParameter("@id", id );
       string query = "WHERE id = @id";
       return (Book) DBHandler.GetObjectFromDB(Table, query, MakeObject, parameter);
-
     }
   } // end class
 } // end namespace
