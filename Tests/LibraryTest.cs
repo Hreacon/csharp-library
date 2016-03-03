@@ -302,7 +302,16 @@ namespace LibraryNS
       guide.Save();
       paul.CheckoutBook(guide.GetId());
       Assert.Equal(true, guide.GetCurrentCheckout()[0].Contains(paul.GetName()));
-
+    }
+    [Fact]
+    public void PersonCanAuthorBook()
+    {
+      Person paul = new Person("Paul");
+      paul.Save();
+      Book guide = new Book("The Hitchhiker's Guide to the Galaxy", 2);
+      guide.Save();
+      paul.AuthorBook(guide.GetId());
+      Assert.Equal(guide, paul.GetBooks()[0]);
     }
     /*
     book knows how many copies are left
