@@ -10,7 +10,6 @@ patron crud
 authors crud
 
 classes
-Books - r for authors, search for book by author,title,
 
 checkout - d
 authors - d

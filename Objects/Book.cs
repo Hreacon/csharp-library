@@ -120,6 +120,19 @@ namespace LibraryNS.Objects
       List<Object> fromDB = DBHandler.GetAll(Table, MakeObject);
       return fromDB.Cast<Book>().ToList();
     }
+    public static List<Book> Search(string term)
+    {
+      List<Book> output = new List<Book>(){};
+      term = "%"+term+"%";
+      string query = "SELECT " +Table+ ".* FROM " +Book.Table+ " JOIN " +Author.Table+ " ON ("+Author.Table+"."+Author.BookColumn+"="+Book.Table+".id) JOIN "+Person.Table+" ON ("+Person.Table+".id="+Author.Table+"."+Author.AuthorColumn+") WHERE "  +Book.Table + "." +Book.TitleColumn+" LIKE @SearchTerm OR "+ Person.Table+"."+Person.NameColumn+" LIKE @SearchTerm;";
+      SqlDataReader rdr = DatabaseOperation(query, new SqlParameter("@SearchTerm", term));
+      while(rdr.Read())
+      {
+        output.Add((Book)MakeObject(rdr));
+      }
+      DatabaseCleanup(rdr);
+      return output;
+    }
     public static void DeleteAll()
     {
       DBHandler.DeleteAll(Table);
