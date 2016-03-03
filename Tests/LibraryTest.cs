@@ -316,12 +316,12 @@ namespace LibraryNS
     [Fact]
     public void BookKnowsAuthors()
     {
-      Patron paul = new Patron("Paul");
+      Person paul = new Person("Paul");
       paul.Save();
       Book guide = new Book("The Hitchhiker's Guide to the Galaxy", 2);
       guide.Save();
       paul.AuthorBook(guide.GetId());
-      Assert.Equal(paul.GetName(), guide.GetAuthors());
+      Assert.Equal(true, guide.GetAuthors().Contains(paul.GetName()));
     }
     /*
     book knows how many copies are left

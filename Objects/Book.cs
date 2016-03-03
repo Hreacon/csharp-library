@@ -91,6 +91,16 @@ namespace LibraryNS.Objects
       DatabaseCleanup(rdr);
       return output;
     }
+    public string GetAuthors()
+    {
+      string output = "";
+      List<Person> authors = base.GetList(Person.Table + ", " + Author.Table, "WHERE "+Author.Table+"."+Author.BookColumn+" = @BookId", Person.MakeObject, new SqlParameter("@BookId", GetId())).Cast<Person>().ToList();
+      foreach(Person author in authors)
+      {
+        output += author.GetName() + ", ";
+      }
+      return output.Substring(0, output.Length-2);
+    }
     public List<Patron> GetPatrons() { return GetPatronsByReturned(0); }
     public List<Patron> GetPreviousPatrons() { return GetPatronsByReturned(1); }
     private List<Patron> GetPatronsByReturned(int returned)
