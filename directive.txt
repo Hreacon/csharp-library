@@ -10,14 +10,7 @@ patron crud
 authors crud
 
 classes
-Books - r for authors, r for checkouts, search for book by author,title, tell how many copies are left
-people - , r for Books, c authors
-
-
-
-
-
-
+Books - r for authors, search for book by author,title,
 
 checkout - d
 authors - d
