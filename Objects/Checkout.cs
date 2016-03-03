@@ -15,6 +15,17 @@ namespace LibraryNS.Objects
     public static string ReturnedColumn = "returned";
     public static List<string> Columns = new List<string> { PatronColumn, BookColumn, DateColumn, DueDateColumn, ReturnedColumn };
 
+    public static List<SqlParameter> MakeParameters(int patronId, int bookId)
+    {
+      int returned = 0;
+      return new List<SqlParameter> {
+        new SqlParameter("@"+Checkout.DateColumn, DateTime.Today),
+        new SqlParameter("@"+Checkout.DueDateColumn, DateTime.Today.AddDays(21)),
+        new SqlParameter("@"+Checkout.ReturnedColumn, returned),
+        new SqlParameter("@"+Checkout.PatronColumn, patronId),
+        new SqlParameter("@"+Checkout.BookColumn, bookId)
+      };
+    }
     public static void Delete(int id)
     {
       DBHandler.Delete(Table, id);

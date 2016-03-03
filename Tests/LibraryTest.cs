@@ -19,6 +19,7 @@ namespace LibraryNS
       Person.DeleteAll();
       Checkout.DeleteAll();
       Author.DeleteAll();
+      Patron.DeleteAll();
     }
 
     [Fact]
@@ -267,10 +268,40 @@ namespace LibraryNS
       paul.CheckoutBook(guide.GetId());
       Assert.Equal(paul, guide.GetPatrons()[0]);
     }
-    /*
+
     [Fact]
     public void BookKnowsWhoPreviouslyCheckedItOut()
     {
+      Patron paul = new Patron("Paul");
+      paul.Save();
+      Book guide = new Book("The Hitchhiker's Guide to the Galaxy", 2);
+      guide.Save();
+      paul.CheckoutBook(guide.GetId());
+      paul.ReturnBook(guide.GetId());
+      Assert.Equal(paul, guide.GetPreviousPatrons()[0]);
+    }
+
+    [Fact]
+    public void BookKnowsHowManyCopiesAreLeft()
+    {
+      Patron paul = new Patron("Paul");
+      paul.Save();
+      Book guide = new Book("The Hitchhiker's Guide to the Galaxy", 2);
+      guide.Save();
+      paul.CheckoutBook(guide.GetId());
+      Assert.Equal(1, guide.GetRemainingCopies());
+      paul.ReturnBook(guide.GetId());
+      Assert.Equal(2, guide.GetRemainingCopies());
+    }
+    [Fact]
+    public void BookTellsWhoCheckedItOutAndWhenDueBack()
+    {
+      Patron paul = new Patron("Paul");
+      paul.Save();
+      Book guide = new Book("The Hitchhiker's Guide to the Galaxy", 2);
+      guide.Save();
+      paul.CheckoutBook(guide.GetId());
+      Assert.Equal(true, guide.GetCurrentCheckout()[0].Contains(paul.GetName()));
 
     }
     /*

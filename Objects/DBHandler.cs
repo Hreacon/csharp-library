@@ -118,7 +118,7 @@ namespace JensenNS.Objects
 
       return rdr;
     }
-    protected static void DatabaseCleanup(SqlDataReader rdr, SqlConnection conn)
+    protected static void DatabaseCleanup(SqlDataReader rdr, SqlConnection conn = null)
     {
       if(rdr != null)
       {
@@ -127,6 +127,9 @@ namespace JensenNS.Objects
       if(conn != null)
       {
         conn.Close();
+      } else if (_conn != null)
+      {
+        _conn.Close();
       }
     }
   }

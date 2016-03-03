@@ -12,7 +12,7 @@ namespace LibraryNS.Objects
     private int _id;
     private string _name;
     public static string NameColumn = "name";
-    public static string Table = "people";
+    public static string Table = "patrons";
 
     public Patron(string name, int id = 0)
     {
@@ -53,17 +53,7 @@ namespace LibraryNS.Objects
     }
     public void CheckoutBook(int bookId)
     {
-      DateTime today = DateTime.Today;
-      DateTime dueDate = DateTime.Now.AddDays(21);
-      int returned = 0;
-      List<SqlParameter> parameters = new List<SqlParameter> {
-        new SqlParameter("@"+Checkout.DateColumn, today),
-        new SqlParameter("@"+Checkout.DueDateColumn, dueDate),
-        new SqlParameter("@"+Checkout.ReturnedColumn, returned),
-        new SqlParameter("@"+Checkout.PatronColumn, GetId()),
-        new SqlParameter("@"+Checkout.BookColumn, bookId)
-      };
-      base.Save(Checkout.Table, Checkout.Columns, parameters);
+      base.Save(Checkout.Table, Checkout.Columns, Checkout.MakeParameters(GetId(), bookId));
     }
     public void ReturnBook(int bookId)
     {

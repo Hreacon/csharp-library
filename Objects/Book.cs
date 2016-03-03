@@ -70,10 +70,33 @@ namespace LibraryNS.Objects
     {
       DBHandler.Delete(Table, _id);
     }
-    public List<Patron> GetPatrons()
+    public int GetRemainingCopies()
+    {
+      string query = "select COUNT(*) from checkouts where book_id = @BookId and returned = 0";
+      SqlDataReader rdr = DatabaseOperation(query, new SqlParameter("@BookId", GetId()));
+      rdr.Read();
+      int output = GetCopies() - rdr.GetInt32(0);
+      DatabaseCleanup(rdr);
+      return output;
+    }
+    public List<string> GetCurrentCheckout()
+    {
+      string query = "SELECT patrons.name, checkouts.* FROM checkouts, patrons WHERE book_id = @BookId AND returned = 0";
+      SqlDataReader rdr = DatabaseOperation(query, new SqlParameter("@BookId", GetId()));
+      List<string> output = new List<string>(){};
+      while(rdr.Read())
+      {
+        output.Add(rdr.GetString(0) + " Checked out on " + rdr.GetDateTime(4).ToString("MM dd, yyyy") + " Due By " + rdr.GetDateTime(5).ToString("MM dd, yyyy"));
+      }
+      DatabaseCleanup(rdr);
+      return output;
+    }
+    public List<Patron> GetPatrons() { return GetPatronsByReturned(0); }
+    public List<Patron> GetPreviousPatrons() { return GetPatronsByReturned(1); }
+    private List<Patron> GetPatronsByReturned(int returned)
     {
       List<Patron> patrons = new List<Patron>{};
-      string query = "SELECT " +Patron.Table+ ".* FROM " +Patron.Table+ " JOIN " +Checkout.Table+ " ON ("+Checkout.Table+"."+Checkout.PatronColumn+"="+Patron.Table+".id) WHERE "  +Checkout.Table + "." +Checkout.BookColumn+"= @GetId";
+      string query = "SELECT " +Patron.Table+ ".* FROM " +Patron.Table+ " JOIN " +Checkout.Table+ " ON ("+Checkout.Table+"."+Checkout.PatronColumn+"="+Patron.Table+".id) WHERE "  +Checkout.Table + "." +Checkout.BookColumn+"= @GetId AND "+ Checkout.Table+"."+Checkout.ReturnedColumn+" = " + returned;
       SqlParameter parameter = new SqlParameter("@GetId", GetId());
       SqlDataReader rdr = DatabaseOperation(query, parameter);
       while (rdr.Read())

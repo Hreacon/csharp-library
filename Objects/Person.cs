@@ -32,6 +32,10 @@ namespace LibraryNS.Objects
     public string GetName() { return _name; }
     public void SetName(string name) { _name = name; }
 
+    public void AuthorBook(int bookId)
+    {
+      base.Save(Author.Table, Author.Columns, Author.MakeParameters(GetId(), bookId), 0);
+    }
     public void Save()
     {
       List<string> columns = new List<string>{NameColumn};
