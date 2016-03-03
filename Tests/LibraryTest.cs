@@ -323,13 +323,20 @@ namespace LibraryNS
       paul.AuthorBook(guide.GetId());
       Assert.Equal(true, guide.GetAuthors().Contains(paul.GetName()));
     }
+    [Fact]
+    public void SearchForBookByTitleOrAuthor()
+    {
+      Person paul = new Person("Paul");
+      paul.Save();
+      Book guide = new Book("The Hitchhiker's Guide to the Galaxy", 2);
+      guide.Save();
+      paul.AuthorBook(guide.GetId());
+      Assert.Equal(guide, Book.Search("Paul")[0]);
+    }
     /*
-    book knows how many copies are left
-    book knows how many copies are total
+
     when patron checks book out it makes sure there is a copy left
-    authors know what books they've written
-    books know who its authors are
-    people become authors
+
     book can search for books by title or author name
 
     /**/
