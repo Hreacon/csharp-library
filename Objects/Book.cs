@@ -70,6 +70,18 @@ namespace LibraryNS.Objects
     {
       DBHandler.Delete(Table, _id);
     }
+    public List<Patron> GetPatrons()
+    {
+      List<Patron> patrons = new List<Patron>{};
+      string query = "SELECT " +Patron.Table+ ".* FROM " +Patron.Table+ " JOIN " +Checkout.Table+ " ON ("+Checkout.Table+"."+Checkout.PatronColumn+"="+Patron.Table+".id) WHERE "  +Checkout.Table + "." +Checkout.BookColumn+"= @GetId";
+      SqlParameter parameter = new SqlParameter("@GetId", GetId());
+      SqlDataReader rdr = DatabaseOperation(query, parameter);
+      while (rdr.Read())
+      {
+        patrons.Add((Patron)Patron.MakeObject(rdr));
+      }
+      return patrons;
+    }
     public static List<Book> GetAll()
     {
       List<Object> fromDB = DBHandler.GetAll(Table, MakeObject);

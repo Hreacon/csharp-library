@@ -46,8 +46,9 @@ namespace LibraryNS.Objects
     public List<Book> GetPreviouslyCheckedOutBooks() { return GetBooks(1); }
     private List<Book> GetBooks(int returned)
     {
+      string table = Book.Table + ", " + Checkout.Table;
       string query = "WHERE " + Checkout.Table + "." + Checkout.BookColumn + " = " + Book.Table + ".id AND "+ Checkout.Table + "." + Checkout.PatronColumn + " = @patronid AND " + Checkout.Table + "." + Checkout.ReturnedColumn + " = " + returned;
-      List<Object> books = base.GetList(Book.Table + ", " + Checkout.Table, query, Book.MakeObject, new SqlParameter("@patronid", GetId()));
+      List<Object> books = base.GetList(table, query, Book.MakeObject, new SqlParameter("@patronid", GetId()));
       return books.Cast<Book>().ToList();
     }
     public void CheckoutBook(int bookId)
@@ -82,12 +83,6 @@ namespace LibraryNS.Objects
         new SqlParameter("@"+NameColumn, GetName())
       };
       _id = base.Save(Table, columns, parameters, GetId());
-    }
-    public void DeleteCheckout(int bookId)
-    {
-      string query = "DELETE * FROM" +Checkout.Table+ " WHERE " +Checkout.BookColumn+ " = @bookId AND " +Checkout.PatronColumn+ " = @GetId";
-
-      // List<
     }
     public void Delete()
     {

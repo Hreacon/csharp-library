@@ -256,18 +256,6 @@ namespace LibraryNS
 
       Assert.Equal(5, Book.Find(guide.GetId()).GetCopies());
     }
-    public void LibrarianDeletesCheckout()
-    {
-      Patron paul = new Patron("Paul");
-      paul.Save();
-      Book guide = new Book("The Hitchhiker's Guide to the Galaxy");
-      guide.Save();
-      paul.CheckoutBook(guide.GetId());
-      Assert.Equal(1, paul.CountBooksCheckedOut());
-
-      paul.DeleteCheckout(guide.GetId());
-      Assert.Equal(0, paul.CountBooksCheckedOut());
-    }
 
     [Fact]
     public void BookKnowsWhoHasCopies()
