@@ -1,0 +1,23 @@
+@Html.Partial("header.cshtml")
+
+<h1>Welcome Librarian</h1>
+
+@if(Model.Count > 0)
+{
+<h3>A list of the books that have been checked out</h3>
+  <ul>
+    @foreach(var patron in Model)
+    {
+      @if(patron.CountBooksCheckedOut() > 0)
+      {
+        @foreach(var book in patron.GetCheckedOutBooks())
+        {
+          <li>@book.GetTitle()</li>
+        }
+      }
+    }
+  </ul>
+} else {
+  <h3>No books have been checked out, are you sure you're still in business?</h3>
+}
+@Html.Partial("adminlinks.cshtml")

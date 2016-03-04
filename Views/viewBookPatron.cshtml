@@ -1,0 +1,9 @@
+@Html.Partial("header.cshtml")
+
+@Html.Partial("viewBook.cshtml", Model["book"])
+
+<a href="/patron/@Model["patron"].GetId()/checkout/@Model["book"].GetId()/">Check This Book Out!</a>
+
+@Html.Partial("searchBooks.cshtml", "/patron/"+Model["patron"].GetId())
+
+@Html.Partial("patronLinks.cshtml", Model["patron"])

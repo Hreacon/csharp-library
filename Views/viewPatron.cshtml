@@ -1,0 +1,32 @@
+<h2>@Model["patron"].GetName()</h2>
+
+@if(Model["patron"].GetCheckedOutBooks().Count > 0)
+{
+  <h4>Current Checked out Books:</h4>
+  @foreach(var book in Model["patron"].GetCheckedOutBooks())
+  {
+    <li>
+      <a href="@Model["link"].ToString()/book/@book.GetId()">@book.GetTitle()</a>
+      <a href="/@Model["link"].ToString()
+        @if(Model["link"].ToString() == "/admin")
+        {
+          @: /patron/@Model["patron"].GetId()
+        } /return/@book.GetId()/">Return</a></li>
+  }
+} else {
+  <h4>No Books Checked Out</h4>
+}
+
+
+@if(Model["patron"].GetPreviouslyCheckedOutBooks().Count > 0)
+{
+  <h4>Books @Model["patron"].GetName() has checked out and returned:</h4>
+  <ul>
+  @foreach(var book in Model["patron"].GetPreviouslyCheckedOutBooks())
+  {
+    <li><a href="/admin/book/@book.GetId()">@book.GetTitle()</a></li>
+  }
+  </ul>
+} else {
+  <h4>@Model["patron"].GetName() has not returned any books yet</h4>
+}

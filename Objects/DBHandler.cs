@@ -104,7 +104,7 @@ namespace JensenNS.Objects
     {
       _conn = DB.Connection();
       _conn.Open();
-      // Console.WriteLine(query);
+      Console.WriteLine(query);
       SqlCommand cmd = new SqlCommand(query, _conn);
       if(parameters != null)
       {

@@ -1,0 +1,14 @@
+<h2>@Model.GetName()</h2>
+
+@if(Model.GetBooks().Count > 0)
+{
+  <h4>Current Authored Books:</h4>
+  @foreach(var book in Model.GetBooks())
+  {
+    <li><a href="/admin/book/@book.GetId()">@book.GetTitle()</a></li>
+  }
+} else {
+  <h4>No Books Authored</h4>
+}
+
+<a href="/admin/author/@Model.GetId()/addBook/">Add a Book</a>

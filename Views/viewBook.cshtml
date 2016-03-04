@@ -1,0 +1,17 @@
+<h2>@Model.GetTitle()</h2>
+<h4>@Model.GetAuthors()</h4>
+<p>
+  Copies The Library Has Left: @Model.GetRemainingCopies()/@Model.GetCopies()
+</p>
+@if(Model.GetCurrentCheckout().Count > 0)
+{
+  <p>
+    Checkouts:
+    <ul>
+    @foreach(var patron in @Model.GetCurrentCheckout())
+    {
+      <li>@patron.GetName()</li>
+    }
+    </ul>
+  </p>
+}

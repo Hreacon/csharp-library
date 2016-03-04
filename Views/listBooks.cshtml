@@ -1,0 +1,12 @@
+<h2>List of Books</h2>
+@if(Model["books"].Count > 0)
+{
+  <ul>
+    @foreach(var book in Model["books"])
+    {
+      <li><a href="@Model["link"]/book/@book.GetId()">@book.GetTitle()</a></li>
+    }
+  </ul>
+} else {
+  <h3>No Books have been added to this library yet</h3>
+}

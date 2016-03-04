@@ -1,0 +1,7 @@
+@Html.Partial("header.cshtml")
+
+@Html.Partial("viewPatron.cshtml", Model)
+
+@Html.Partial("searchBooks.cshtml", Model["link"])
+
+@Html.Partial("patronLinks.cshtml", Model["patron"])

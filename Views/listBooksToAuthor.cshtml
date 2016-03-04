@@ -1,0 +1,11 @@
+@if(Model["books"].Count > 0)
+{
+  <ul>
+    @foreach(var book in Model["books"])
+    {
+      <li><a href="/admin/author/@Model["author"].GetId()/authorBook/@book.GetId()">@book.GetTitle()</a></li>
+    }
+  </ul>
+} else {
+  <h3>No Books have been added to this library yet</h3>
+}

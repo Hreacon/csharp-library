@@ -1,0 +1,13 @@
+
+<h1>Patrons:</h1>
+@if( Model["patrons"].Count > 0)
+{
+  <ul>
+  @foreach(var patron in Model["patrons"])
+  {
+    <li><a href="@Model["link"].ToString()/patron/@patron.GetId()">@patron.GetName()</a></li>
+  }
+  </ul>
+} else {
+  <h3>No Patrons Listed</h3>
+}

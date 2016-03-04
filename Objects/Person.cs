@@ -34,7 +34,8 @@ namespace LibraryNS.Objects
 
     public List<Book> GetBooks()
     {
-      return base.GetList(Book.Table+", "+Author.Table, "WHERE "+Author.Table+"."+Author.AuthorColumn + " = @id", Book.MakeObject, new SqlParameter("@id", GetId())).Cast<Book>().ToList();
+      string query = "JOIN authors ON (authors.book_id = books.id) WHERE authors.author_id = @id";
+      return base.GetList(Book.Table, query, Book.MakeObject, new SqlParameter("@id", GetId())).Cast<Book>().ToList();
     }
     public void AuthorBook(int bookId)
     {

@@ -5,11 +5,52 @@ authors id authorid bookid
 patrons id name
 checkouts id patronid bookid date duedate returned
 
-book crud
-patron crud
-authors crud
+Classes
+COMPLETED
 
-classes
+Nancy
+Two front ends
+Librarian
+Sees a list of checked out books
+can add authors to books
+Can add authors, books or patrons
+can see all books, see all authors, see all patrons
 
-checkout - d
-authors - d
+Patron
+Can check out books
+can return books
+
+both:
+list books
+view individual books
+search for books
+
+THINGS WE MISSED
+No way to get due dates.. oops
+
+routes:
+patron - list patrons to log in
+librarian - show librarian main page ( show checked out books and links to admin features )
+/patron/ - list of patrons to choose to login listPatronsPatron.cshtml
+/patron/id - view checked out books, links to return those books. Link to look at books to check out, book search bar. viewPatronPatron.cshtml
+/patron/id/listbooks - view all books in library with search bar. listBooksPatron.cshtml
+/patron/id/searchbook - search for books. listBooksPatron.cshtml
+/patron/id/book/id - patron viewing book. Checkout button. viewBookPatron.cshtml
+/patron/id/checkout/id - patron checks out book. Return view of /patron/id forward.cshtml
+/patron/id/return/id - patron returns a book. Return view of /patron/id forward.cshtml
+
+/admin/ - librarian main page. Show books that are checked out, links to view books or patrons or authors admin.cshtml
+/admin/books/ - view a list of books. Links to show individual books and search bar for books listBooksAdmin.cshtml
+/admin/books/search - list of search results listBooksAdmin.csthml
+/admin/book/id - view specific book. Add author button viewBookAdmin.cshtml
+/admin/book/id/edit - edit specific book editBookAdmin.cshtml
+/admin/patrons/ - list of patrons. Show form to add a patron listPatronAdmin.cshtml
+/admin/patron/add/ - add a patron. Return view of /admin/patrons
+/admin/patron/id - view patron, their checked out books. Force return of book viewPatronAdmin.cshtml
+/admin/patron/id/return/id - return a patrons book
+/admin/patron/id/edit - edit the patron info. editPatronAdmin.cshtml
+/admin/authors/ - list of authors. links to show individual authors listAuthorAdmin.cshtml
+/admin/author/id/addBook/ - show a list of books to add to the author
+/admin/author/id/authorBook/id - save the author of the book and return view of /admin/author/id
+/admin/author/id/ - individual author. Add button to add book to authored list viewAuthorAdmin.cshtml
+/admin/author/id/edit/ - edit the author editAuthorAdmin.cshtml
